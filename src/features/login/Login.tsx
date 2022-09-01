@@ -10,10 +10,8 @@ import { Container } from './view/Container';
 type Props = {};
 
 const Login: FC<Props> = () => {
-  const { isAuth, status, error } = useAppSelector(selectLogin);
+  const { status, error } = useAppSelector(selectLogin);
   const navigate = useNavigate();
-
-  console.log(isAuth);
 
   switch (status) {
     case REQUEST_STATUS.idle: {

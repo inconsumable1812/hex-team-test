@@ -3,7 +3,8 @@ import { RequestStatus } from 'src/shared/helpers/redux';
 type State = {
   status: RequestStatus;
   error: string | null;
-  isAuth: boolean;
+  access_token: null | string;
+  token_type: null | string;
 };
 
 export type { State };

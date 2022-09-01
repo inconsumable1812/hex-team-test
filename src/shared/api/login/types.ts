@@ -13,8 +13,6 @@ type QueryParameters = {
 type Response = {
   access_token?: string;
   token_type?: string;
-
-  detail?: string;
 };
 
 export type { QueryParameters, Response };

@@ -17,9 +17,13 @@ const slice = createSlice({
       .addCase(login.pending, (state) => {
         state.status = 'pending';
       })
-      .addCase(login.fulfilled, (state) => {
+      .addCase(login.fulfilled, (state, action) => {
+        const { payload } = action;
+        const { access_token, token_type } = payload;
+
         state.status = 'fulfilled';
-        state.isAuth = true;
+        state.access_token = access_token ?? null;
+        state.token_type = token_type ?? null;
       })
       .addCase(login.rejected, (state, action) => {
         state.status = 'rejected';
