@@ -5,10 +5,10 @@ import {
   reset as loginReset,
   selectLogin
 } from 'src/features/login/redux/slice';
-import { Container, Input, Loader, UpdateIcon } from 'src/shared/components';
+import { Container, Input, Loader } from 'src/shared/components';
 import { selectLinkObjects } from '../redux/selectors';
 import { reset } from '../redux/slice';
-import { getStatistics, squeeze } from '../redux/thunks';
+import { squeeze } from '../redux/thunks';
 import { Table } from './components/Table/Table';
 import styles from './MainContainer.module.scss';
 
@@ -38,19 +38,12 @@ const MainContainer: FC<Props> = ({ showLoading = false }) => {
     dispatch(loginReset());
     dispatch(reset());
   };
-
-  const updateObj = () => {
-    if (access_token === null || token_type === null) return;
-    dispatch(getStatistics({ access_token, token_type }));
-  };
-
   const handleChangePage = (pageNumber: number) => {
     if (pageNumber === activePage) return;
     setActivePage(pageNumber);
   };
-  const handleChangeItemsPerPage = (e: SyntheticEvent<HTMLSelectElement>) => {
-    const newValue = +e.currentTarget.value;
-    setItemsCountPerPage(newValue);
+  const onChangeItemsPerPage = (number: number) => {
+    setItemsCountPerPage(number);
   };
 
   return (
@@ -74,34 +67,13 @@ const MainContainer: FC<Props> = ({ showLoading = false }) => {
             <Loader />
           </div>
         )}
-        <div>
-          <div className={styles.tableOptions}>
-            <div className={styles.updIcon} onClick={updateObj}>
-              <UpdateIcon></UpdateIcon>
-            </div>
-            <div>
-              <span className={styles.selectCaption}>
-                Кол-во строк на странице:
-              </span>
-              <select
-                className={styles.select}
-                value={itemsCountPerPage}
-                onChange={handleChangeItemsPerPage}
-              >
-                <option value={10}>10</option>
-                <option value={15}>15</option>
-                <option value={20}>20</option>
-                <option value={30}>30</option>
-                <option value={50}>50</option>
-              </select>
-            </div>
-          </div>
-          <Table
-            itemsCountPerPage={itemsCountPerPage}
-            activePage={activePage}
-            linkObjects={linkObjects}
-          ></Table>
-        </div>
+
+        <Table
+          itemsCountPerPage={itemsCountPerPage}
+          activePage={activePage}
+          linkObjects={linkObjects}
+          onChangeItemsPerPage={onChangeItemsPerPage}
+        ></Table>
       </div>
 
       <Pagination

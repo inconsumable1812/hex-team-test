@@ -23,14 +23,6 @@
   transform: translateX(-50%) translateY(-50%);
 }
 
-.updIcon {
-  max-width: 30px;
-  max-height: 30px;
-  cursor: pointer;
-  user-select: none;
-  fill: blue;
-}
-
 .pagination {
   display: flex;
   justify-content: center;
@@ -59,18 +51,4 @@
 
 .disabledItem {
   opacity: 0.4;
-}
-
-.tableOptions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 0 3px;
-}
-
-.selectCaption {
-  margin: 0 10px 0 0;
-}
-.select {
-  cursor: pointer;
 }
