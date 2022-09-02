@@ -1,8 +1,7 @@
 import { FC } from 'react';
 import { LinkObject } from 'src/shared/api/types';
 import { TableRow } from '../TableRow/TableRow';
-
-// import styles from './PeopleCard.module.scss';
+import styles from './Table.module.scss';
 
 type Props = {
   linkObjects: LinkObject[];
@@ -10,12 +9,12 @@ type Props = {
 
 const Table: FC<Props> = ({ linkObjects }) => {
   return (
-    <table>
+    <table className={styles.table}>
       <thead>
         <tr>
           <th>Короткая ссылка</th>
           <th>Исходная ссылка</th>
-          <th>кол-во переходов</th>
+          <th>Кол-во переходов</th>
         </tr>
       </thead>
       <tbody>

@@ -7,7 +7,7 @@ import { selectLogin } from '../login/redux/selectors';
 
 import { selectLinkObjects } from './redux/slice';
 import { getStatistics } from './redux/thunks';
-import { Container } from './view/Container';
+import { MainContainer } from './view/MainContainer';
 
 type Props = {};
 
@@ -29,11 +29,11 @@ const Main: FC<Props> = () => {
   switch (status) {
     case REQUEST_STATUS.pending: {
       // return <p>load</p>;
-      return <Container showLoading />;
+      return <MainContainer showLoading />;
     }
     case REQUEST_STATUS.fulfilled: {
       // return <p>loaded</p>;
-      return <Container />;
+      return <MainContainer />;
     }
     case REQUEST_STATUS.rejected: {
       return <p>{error}</p>;

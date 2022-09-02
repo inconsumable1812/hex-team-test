@@ -1,6 +1,6 @@
 import { FC, SyntheticEvent } from 'react';
 
-// import styles from './PeopleCard.module.scss';
+import styles from './Input.module.scss';
 
 type Props = {
   value: string | number;
@@ -18,9 +18,10 @@ const Input: FC<Props> = ({
   onChange
 }) => {
   return (
-    <label>
+    <label className={styles.label}>
       <p>{label}</p>
       <input
+        className={styles.input}
         placeholder={placeholder}
         type={type}
         value={value}

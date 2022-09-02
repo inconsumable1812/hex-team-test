@@ -1,0 +1,15 @@
+.label {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  cursor: pointer;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+
+  &:focus {
+    outline-color: rgb(77, 77, 252);
+  }
+}
