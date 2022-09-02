@@ -9,7 +9,6 @@ import { Container, Input, Loader, UpdateIcon } from 'src/shared/components';
 import { selectLinkObjects } from '../redux/selectors';
 import { reset } from '../redux/slice';
 import { getStatistics, squeeze } from '../redux/thunks';
-import { findLinksPerPage } from '../utils';
 import { Table } from './components/Table/Table';
 import styles from './MainContainer.module.scss';
 
@@ -45,11 +44,6 @@ const MainContainer: FC<Props> = ({ showLoading = false }) => {
     dispatch(getStatistics({ access_token, token_type }));
   };
 
-  const linksPerPage = findLinksPerPage({
-    activePage,
-    itemsCountPerPage,
-    linkObjects
-  });
   const handleChangePage = (pageNumber: number) => {
     if (pageNumber === activePage) return;
     setActivePage(pageNumber);
@@ -98,10 +92,15 @@ const MainContainer: FC<Props> = ({ showLoading = false }) => {
                 <option value={15}>15</option>
                 <option value={20}>20</option>
                 <option value={30}>30</option>
+                <option value={50}>50</option>
               </select>
             </div>
           </div>
-          <Table linkObjects={linksPerPage}></Table>
+          <Table
+            itemsCountPerPage={itemsCountPerPage}
+            activePage={activePage}
+            linkObjects={linkObjects}
+          ></Table>
         </div>
       </div>
 

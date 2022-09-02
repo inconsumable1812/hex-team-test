@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { findLinksPerPage, sortLinks } from 'src/features/main/utils';
 import { LinkObject } from 'src/shared/api/types';
 import { ArrowIcon } from 'src/shared/components';
 import { TableRow } from '../TableRow/TableRow';
@@ -6,28 +7,24 @@ import styles from './Table.module.scss';
 
 type Props = {
   linkObjects: LinkObject[];
+  activePage: number;
+  itemsCountPerPage: number;
 };
 
-const Table: FC<Props> = ({ linkObjects }) => {
+const Table: FC<Props> = ({ linkObjects, activePage, itemsCountPerPage }) => {
   const [isDescendingByCount, setIsDescendingByCount] = useState(false);
   const [isDescendingByTarget, setIsDescendingByTarget] = useState(false);
   const [isDescendingByShort, setIsDescendingByShort] = useState(false);
-  const sortedObject = [...linkObjects].sort((a, b) => {
-    if (isDescendingByTarget) {
-      if (a.target > b.target) return 1;
-      if (a.target === b.target) return 0;
-      if (a.target < b.target) return -1;
-    }
-
-    if (isDescendingByShort) {
-      if (a.short > b.short) return 1;
-      if (a.short === b.short) return 0;
-      if (a.short < b.short) return -1;
-    }
-
-    return isDescendingByCount
-      ? a.counter - b.counter
-      : -(a.counter - b.counter);
+  const sortedObject = sortLinks({
+    linkObjects,
+    isDescendingByTarget,
+    isDescendingByShort,
+    isDescendingByCount
+  });
+  const linksPerPage = findLinksPerPage({
+    activePage,
+    itemsCountPerPage,
+    linkObjects: sortedObject
   });
 
   const changeCountIcon = () => {
@@ -101,7 +98,7 @@ const Table: FC<Props> = ({ linkObjects }) => {
             </tr>
           </thead>
           <tbody>
-            {sortedObject.map((el) => (
+            {linksPerPage.map((el) => (
               <TableRow
                 key={el.id}
                 short={el.short}
