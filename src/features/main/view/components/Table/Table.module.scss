@@ -6,3 +6,23 @@
     padding: 5px;
   }
 }
+
+.icon {
+  max-width: 30px;
+  max-height: 30px;
+  stroke: #2f3435;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.5s ease;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+.cellContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 5px;
+}
