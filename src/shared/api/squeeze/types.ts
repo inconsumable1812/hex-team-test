@@ -3,7 +3,7 @@
 import { LinkObject } from '../types';
 
 type QueryParameters = {
-  link: URL;
+  link: string;
   token_type: string;
   access_token: string;
 };
