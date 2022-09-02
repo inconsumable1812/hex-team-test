@@ -4,7 +4,7 @@ import { selectLogin } from 'src/features/login/redux/selectors';
 import { getStatistics } from 'src/features/main/redux/thunks';
 import { findLinksPerPage, sortLinks } from 'src/features/main/utils';
 import { LinkObject } from 'src/shared/api/types';
-import { ArrowIcon, UpdateIcon } from 'src/shared/components';
+import { ArrowIcon, Input, UpdateIcon } from 'src/shared/components';
 import { TableRow } from '../TableRow/TableRow';
 import styles from './Table.module.scss';
 
@@ -24,6 +24,10 @@ const Table: FC<Props> = ({
   const [isDescendingByCount, setIsDescendingByCount] = useState(false);
   const [isDescendingByTarget, setIsDescendingByTarget] = useState(false);
   const [isDescendingByShort, setIsDescendingByShort] = useState(false);
+  const [filterByCount, setFilterByCount] = useState('');
+  const [filterByTarget, setFilterByTarget] = useState('');
+  const [filterByShort, setFilterByShort] = useState('');
+
   const { token_type, access_token } = useAppSelector(selectLogin);
   const dispatch = useAppDispatch();
   const sortedObject = sortLinks({
@@ -36,7 +40,20 @@ const Table: FC<Props> = ({
     activePage,
     itemsCountPerPage,
     linkObjects: sortedObject
-  });
+  })
+    .filter((el) => {
+      if (filterByShort.trim().length === 0) return true;
+      return el.short.toUpperCase().includes(filterByShort.toUpperCase());
+    })
+    .filter((el) => {
+      if (filterByTarget.trim().length === 0) return true;
+      return el.short.toUpperCase().includes(filterByTarget.toUpperCase());
+    })
+    .filter((el) => {
+      if (filterByCount.trim().length === 0) return true;
+      if (Number.isNaN(filterByCount)) return true;
+      return el.counter === Number(filterByCount);
+    });
 
   const changeCountIcon = () => {
     if (isDescendingByTarget) setIsDescendingByTarget(false);
@@ -65,6 +82,15 @@ const Table: FC<Props> = ({
     const newValue = +e.currentTarget.value;
     onChangeItemsPerPage(newValue);
   };
+  const changeFilterByShort = (e: SyntheticEvent<HTMLInputElement>) => {
+    setFilterByShort(e.currentTarget.value);
+  };
+  const changeFilterByTarget = (e: SyntheticEvent<HTMLInputElement>) => {
+    setFilterByTarget(e.currentTarget.value);
+  };
+  const changeFilterByCount = (e: SyntheticEvent<HTMLInputElement>) => {
+    setFilterByCount(e.currentTarget.value);
+  };
 
   return (
     <>
@@ -72,6 +98,29 @@ const Table: FC<Props> = ({
         <h2>У вас ещё нет добавленных ссылок</h2>
       ) : (
         <div>
+          <div className={styles.filtersContainer}>
+            <h2>Фильтры:</h2>
+            <div className={styles.inputContainer}>
+              <Input
+                value={filterByShort}
+                type={'text'}
+                label={'По короткому адресу'}
+                onChange={changeFilterByShort}
+              ></Input>
+              <Input
+                value={filterByTarget}
+                type={'text'}
+                label={'По длинному адресу'}
+                onChange={changeFilterByTarget}
+              ></Input>
+              <Input
+                value={filterByCount}
+                type={'text'}
+                label={'По кол-ву переходов'}
+                onChange={changeFilterByCount}
+              ></Input>
+            </div>
+          </div>
           <div className={styles.tableOptions}>
             <div className={styles.updIcon} onClick={updateObj}>
               <UpdateIcon></UpdateIcon>
@@ -151,6 +200,9 @@ const Table: FC<Props> = ({
               ))}
             </tbody>
           </table>
+          {linksPerPage.length === 0 && (
+            <h3 className={styles.emptyHeading}>Таких элементов не найдено</h3>
+          )}
         </div>
       )}
     </>

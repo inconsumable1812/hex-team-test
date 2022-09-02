@@ -47,3 +47,16 @@
 .select {
   cursor: pointer;
 }
+
+.inputContainer {
+  display: flex;
+  column-gap: 10px;
+}
+
+.filtersContainer {
+  margin: 5px 0;
+}
+
+.emptyHeading {
+  text-align: center;
+}

@@ -41,7 +41,7 @@ const RegisterContainer: FC<Props> = ({ showLoading = false }) => {
         />
         <Input
           value={password}
-          type={'password'}
+          type={'text'}
           label={'Введите Пароль'}
           onChange={changePassword}
           placeholder="Введите Пароль"
