@@ -1,4 +1,5 @@
 import { FC, SyntheticEvent, useState } from 'react';
+import Pagination from 'react-js-pagination';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { selectLogin } from 'src/features/login/redux/selectors';
 import { getStatistics } from 'src/features/main/redux/thunks';
@@ -10,23 +11,17 @@ import styles from './Table.module.scss';
 
 type Props = {
   linkObjects: LinkObject[];
-  activePage: number;
-  itemsCountPerPage: number;
-  onChangeItemsPerPage: (number: number) => void;
 };
 
-const Table: FC<Props> = ({
-  linkObjects,
-  activePage,
-  itemsCountPerPage,
-  onChangeItemsPerPage
-}) => {
+const Table: FC<Props> = ({ linkObjects }) => {
   const [isDescendingByCount, setIsDescendingByCount] = useState(false);
   const [isDescendingByTarget, setIsDescendingByTarget] = useState(false);
   const [isDescendingByShort, setIsDescendingByShort] = useState(false);
   const [filterByCount, setFilterByCount] = useState('');
   const [filterByTarget, setFilterByTarget] = useState('');
   const [filterByShort, setFilterByShort] = useState('');
+  const [activePage, setActivePage] = useState(1);
+  const [itemsCountPerPage, setItemsCountPerPage] = useState(10);
 
   const { token_type, access_token } = useAppSelector(selectLogin);
   const dispatch = useAppDispatch();
@@ -35,11 +30,6 @@ const Table: FC<Props> = ({
     isDescendingByTarget,
     isDescendingByShort,
     isDescendingByCount
-  });
-  const linksPerPage = findLinksPerPage({
-    activePage,
-    itemsCountPerPage,
-    linkObjects: sortedObject
   })
     .filter((el) => {
       if (filterByShort.trim().length === 0) return true;
@@ -47,13 +37,18 @@ const Table: FC<Props> = ({
     })
     .filter((el) => {
       if (filterByTarget.trim().length === 0) return true;
-      return el.short.toUpperCase().includes(filterByTarget.toUpperCase());
+      return el.target.toUpperCase().includes(filterByTarget.toUpperCase());
     })
     .filter((el) => {
       if (filterByCount.trim().length === 0) return true;
       if (Number.isNaN(filterByCount)) return true;
       return el.counter === Number(filterByCount);
     });
+  const linksPerPage = findLinksPerPage({
+    activePage,
+    itemsCountPerPage,
+    linkObjects: sortedObject
+  });
 
   const changeCountIcon = () => {
     if (isDescendingByTarget) setIsDescendingByTarget(false);
@@ -77,10 +72,14 @@ const Table: FC<Props> = ({
     if (access_token === null || token_type === null) return;
     dispatch(getStatistics({ access_token, token_type }));
   };
+  const handleChangePage = (pageNumber: number) => {
+    if (pageNumber === activePage) return;
+    setActivePage(pageNumber);
+  };
 
   const handleChangeItemsPerPage = (e: SyntheticEvent<HTMLSelectElement>) => {
     const newValue = +e.currentTarget.value;
-    onChangeItemsPerPage(newValue);
+    setItemsCountPerPage(newValue);
   };
   const changeFilterByShort = (e: SyntheticEvent<HTMLInputElement>) => {
     setFilterByShort(e.currentTarget.value);
@@ -94,7 +93,7 @@ const Table: FC<Props> = ({
 
   return (
     <>
-      {sortedObject.length === 0 ? (
+      {linkObjects.length === 0 ? (
         <h2>У вас ещё нет добавленных ссылок</h2>
       ) : (
         <div>
@@ -200,6 +199,17 @@ const Table: FC<Props> = ({
               ))}
             </tbody>
           </table>
+          <Pagination
+            activePage={activePage}
+            itemsCountPerPage={itemsCountPerPage}
+            totalItemsCount={sortedObject.length}
+            pageRangeDisplayed={4}
+            onChange={handleChangePage}
+            innerClass={styles.pagination}
+            itemClass={styles.paginationItem}
+            activeClass={styles.activeItem}
+            disabledClass={styles.disabledItem}
+          />
           {linksPerPage.length === 0 && (
             <h3 className={styles.emptyHeading}>Таких элементов не найдено</h3>
           )}

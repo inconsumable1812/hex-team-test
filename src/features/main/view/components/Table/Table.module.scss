@@ -60,3 +60,33 @@
 .emptyHeading {
   text-align: center;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  column-gap: 6px;
+  margin: 20px 0 10px;
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+.paginationItem {
+  border: 1px solid black;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #eee;
+}
+
+.activeItem {
+  background-color: rgb(41, 102, 255);
+  a {
+    color: white;
+  }
+}
+
+.disabledItem {
+  opacity: 0.4;
+}

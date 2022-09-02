@@ -1,5 +1,5 @@
 import { FC, SyntheticEvent, useState } from 'react';
-import Pagination from 'react-js-pagination';
+
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import {
   reset as loginReset,
@@ -18,8 +18,7 @@ type Props = {
 
 const MainContainer: FC<Props> = ({ showLoading = false }) => {
   const dispatch = useAppDispatch();
-  const [activePage, setActivePage] = useState(1);
-  const [itemsCountPerPage, setItemsCountPerPage] = useState(10);
+
   const { linkObjects } = useAppSelector(selectLinkObjects);
   const [URL, setURL] = useState('');
   const { token_type, access_token } = useAppSelector(selectLogin);
@@ -37,13 +36,6 @@ const MainContainer: FC<Props> = ({ showLoading = false }) => {
   const logout = () => {
     dispatch(loginReset());
     dispatch(reset());
-  };
-  const handleChangePage = (pageNumber: number) => {
-    if (pageNumber === activePage) return;
-    setActivePage(pageNumber);
-  };
-  const onChangeItemsPerPage = (number: number) => {
-    setItemsCountPerPage(number);
   };
 
   return (
@@ -68,25 +60,8 @@ const MainContainer: FC<Props> = ({ showLoading = false }) => {
           </div>
         )}
 
-        <Table
-          itemsCountPerPage={itemsCountPerPage}
-          activePage={activePage}
-          linkObjects={linkObjects}
-          onChangeItemsPerPage={onChangeItemsPerPage}
-        ></Table>
+        <Table linkObjects={linkObjects}></Table>
       </div>
-
-      <Pagination
-        activePage={activePage}
-        itemsCountPerPage={itemsCountPerPage}
-        totalItemsCount={linkObjects.length}
-        pageRangeDisplayed={4}
-        onChange={handleChangePage}
-        innerClass={styles.pagination}
-        itemClass={styles.paginationItem}
-        activeClass={styles.activeItem}
-        disabledClass={styles.disabledItem}
-      />
     </Container>
   );
 };
