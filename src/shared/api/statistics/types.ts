@@ -1,20 +1,15 @@
 // http://79.143.31.216/docs#/default/statistics_statistics_get
 
+import { LinkObject } from '../types';
+
 type QueryParameters = {
   offset?: number;
   limit?: number;
-};
 
-type AuthorizationParameters = {
   token_type: string;
   access_token: string;
 };
 
-type Response = {
-  id?: number;
-  short?: string;
-  target?: string;
-  counter?: number;
-}[];
+type Response = Partial<LinkObject>[];
 
-export type { QueryParameters, Response, AuthorizationParameters };
+export type { QueryParameters, Response };

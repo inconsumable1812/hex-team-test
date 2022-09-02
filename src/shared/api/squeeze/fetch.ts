@@ -1,16 +1,13 @@
-import type {
-  AuthorizationParameters,
-  QueryParameters,
-  Response
-} from './types';
+import type { QueryParameters, Response } from './types';
 
-const fetch = async (
-  queryParameters: QueryParameters,
-  { token_type, access_token }: AuthorizationParameters
-): Promise<Response | globalThis.Error> => {
+const fetch = async ({
+  link,
+  token_type,
+  access_token
+}: QueryParameters): Promise<Response | globalThis.Error> => {
   try {
     const response = await globalThis.fetch(
-      `http://79.143.31.216/squeeze?link=${queryParameters}`,
+      `http://79.143.31.216/squeeze?link=${link}`,
       {
         method: 'POST',
         headers: {

@@ -1,13 +1,11 @@
-import type {
-  AuthorizationParameters,
-  QueryParameters,
-  Response
-} from './types';
+import type { QueryParameters, Response } from './types';
 
-const fetch = async (
-  { offset = 0, limit = 0 }: QueryParameters,
-  { token_type, access_token }: AuthorizationParameters
-): Promise<Response | globalThis.Error> => {
+const fetch = async ({
+  token_type,
+  access_token,
+  offset = 0,
+  limit = 0
+}: QueryParameters): Promise<Response | globalThis.Error> => {
   try {
     const response = await globalThis.fetch(
       `http://79.143.31.216/statistics?order=asc_short&offset=${offset}&limit=${limit}`,
@@ -15,7 +13,11 @@ const fetch = async (
         method: 'GET',
         headers: {
           Authorization: `${token_type} ${access_token}`,
-          accept: 'application/json'
+          'Content-Type': 'application/json',
+          referrerPolicy: 'unsafe-url',
+          'Access-Control-Allow-Origin': '*',
+          credentials: 'include',
+          mode: 'no-cors'
         }
       }
     );

@@ -33,6 +33,4 @@ const Login: FC<Props> = () => {
   }
 };
 
-export type { Props };
-
 export { Login };

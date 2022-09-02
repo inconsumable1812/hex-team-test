@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { reducer as loginReducer } from 'src/features/login';
+import { reducer as mainReducer } from 'src/features/main';
 
 export const store = configureStore({
   reducer: {
-    login: loginReducer
+    login: loginReducer,
+    main: mainReducer
   }
 });
 
