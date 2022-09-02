@@ -5,7 +5,7 @@ import { getStatistics, squeeze } from './thunks';
 import { selectLinkObjects } from './selectors';
 
 const slice = createSlice({
-  name: 'login',
+  name: 'main',
   initialState,
   reducers: {
     reset: (state) => {

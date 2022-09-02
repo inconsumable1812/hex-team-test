@@ -2,14 +2,14 @@ import { FC, SyntheticEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { Container, Input, Loader } from 'src/shared/components';
-import { login } from '../redux/thunks/login';
-import styles from './LoginContainer.module.scss';
+import { register } from '../redux/thunks/register';
+import styles from './RegisterContainer.module.scss';
 
 type Props = {
   showLoading?: boolean;
 };
 
-const LoginContainer: FC<Props> = ({ showLoading = false }) => {
+const RegisterContainer: FC<Props> = ({ showLoading = false }) => {
   const dispatch = useAppDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -23,13 +23,13 @@ const LoginContainer: FC<Props> = ({ showLoading = false }) => {
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (username.trim().length !== 0 && password.length !== 0) {
-      dispatch(login({ username, password }));
+      dispatch(register({ username, password }));
     }
   };
 
   return (
     <Container>
-      <h1 className={styles.heading}>Вход в аккаунт</h1>
+      <h1 className={styles.heading}>Регистрация аккаунта</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         {showLoading && <Loader />}
         <Input
@@ -46,13 +46,13 @@ const LoginContainer: FC<Props> = ({ showLoading = false }) => {
           onChange={changePassword}
           placeholder="Введите Пароль"
         />
-        <button className={styles.button}>Войти</button>
+        <button className={styles.button}>Зарегистрировать</button>
       </form>
       <nav className={styles.nav}>
-        <Link to="/register">Зарегистрироваться</Link>
+        <Link to="/">Войти</Link>
       </nav>
     </Container>
   );
 };
 
-export { LoginContainer };
+export { RegisterContainer };
