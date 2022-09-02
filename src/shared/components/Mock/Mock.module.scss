@@ -1,0 +1,14 @@
+.heading {
+  text-align: center;
+}
+
+.nav {
+  margin: 8px 0 0;
+  display: flex;
+  column-gap: 15px;
+  justify-content: center;
+
+  a {
+    color: blue;
+  }
+}

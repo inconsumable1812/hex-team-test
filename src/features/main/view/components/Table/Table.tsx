@@ -49,64 +49,70 @@ const Table: FC<Props> = ({ linkObjects }) => {
   };
 
   return (
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          <th>
-            <div className={styles.cellContent}>
-              <p> Короткая ссылка</p>
-              <div
-                className={[
-                  styles.icon,
-                  isDescendingByShort ? styles.rotate : ''
-                ].join(' ')}
-                onClick={changeShortIcon}
-              >
-                <ArrowIcon></ArrowIcon>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div className={styles.cellContent}>
-              <p> Исходная ссылка</p>
-              <div
-                className={[
-                  styles.icon,
-                  isDescendingByTarget ? styles.rotate : ''
-                ].join(' ')}
-                onClick={changeTargetIcon}
-              >
-                <ArrowIcon></ArrowIcon>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div className={styles.cellContent}>
-              <p>Кол-во переходов</p>
-              <div
-                className={[
-                  styles.icon,
-                  isDescendingByCount ? styles.rotate : ''
-                ].join(' ')}
-                onClick={changeCountIcon}
-              >
-                <ArrowIcon></ArrowIcon>
-              </div>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {sortedObject.map((el) => (
-          <TableRow
-            key={el.id}
-            short={el.short}
-            target={el.target}
-            counter={el.counter}
-          />
-        ))}
-      </tbody>
-    </table>
+    <>
+      {sortedObject.length === 0 ? (
+        <h2>У вас ещё нет добавленных ссылок</h2>
+      ) : (
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>
+                <div className={styles.cellContent}>
+                  <p> Короткая ссылка</p>
+                  <div
+                    className={[
+                      styles.icon,
+                      isDescendingByShort ? styles.rotate : ''
+                    ].join(' ')}
+                    onClick={changeShortIcon}
+                  >
+                    <ArrowIcon></ArrowIcon>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div className={styles.cellContent}>
+                  <p> Исходная ссылка</p>
+                  <div
+                    className={[
+                      styles.icon,
+                      isDescendingByTarget ? styles.rotate : ''
+                    ].join(' ')}
+                    onClick={changeTargetIcon}
+                  >
+                    <ArrowIcon></ArrowIcon>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div className={styles.cellContent}>
+                  <p>Кол-во переходов</p>
+                  <div
+                    className={[
+                      styles.icon,
+                      isDescendingByCount ? styles.rotate : ''
+                    ].join(' ')}
+                    onClick={changeCountIcon}
+                  >
+                    <ArrowIcon></ArrowIcon>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedObject.map((el) => (
+              <TableRow
+                key={el.id}
+                short={el.short}
+                target={el.target}
+                counter={el.counter}
+              />
+            ))}
+          </tbody>
+        </table>
+      )}
+    </>
   );
 };
 

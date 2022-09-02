@@ -1,6 +1,7 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
+import { statusReset } from 'src/features/register/redux/slice';
 import { Container, Input, Loader } from 'src/shared/components';
 import { login } from '../redux/thunks/login';
 import styles from './LoginContainer.module.scss';
@@ -27,6 +28,10 @@ const LoginContainer: FC<Props> = ({ showLoading = false }) => {
     }
   };
 
+  const resetRegister = () => {
+    dispatch(statusReset());
+  };
+
   return (
     <Container>
       <h1 className={styles.heading}>Вход в аккаунт</h1>
@@ -49,7 +54,9 @@ const LoginContainer: FC<Props> = ({ showLoading = false }) => {
         <button className={styles.button}>Войти</button>
       </form>
       <nav className={styles.nav}>
-        <Link to="/register">Зарегистрироваться</Link>
+        <Link onClick={resetRegister} to="/register">
+          Зарегистрироваться
+        </Link>
       </nav>
     </Container>
   );

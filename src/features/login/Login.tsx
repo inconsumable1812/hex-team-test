@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { REQUEST_STATUS } from 'src/shared/helpers/redux';
@@ -7,6 +7,7 @@ import { REQUEST_STATUS } from 'src/shared/helpers/redux';
 import { selectLogin, statusReset } from './redux/slice';
 import { LoginContainer } from './view/LoginContainer';
 import styles from './Login.module.scss';
+import { Container } from 'src/shared/components';
 
 type Props = {};
 
@@ -26,8 +27,13 @@ const Login: FC<Props> = () => {
       return <LoginContainer showLoading />;
     }
     case REQUEST_STATUS.fulfilled: {
-      navigate('/home', { replace: true });
-      return null;
+      navigate('/main', { replace: true });
+      return (
+        <Container>
+          <h1>Вы уже вошли!</h1>
+          <Link to={'/main'}>На главную</Link>
+        </Container>
+      );
     }
     case REQUEST_STATUS.rejected: {
       return (
