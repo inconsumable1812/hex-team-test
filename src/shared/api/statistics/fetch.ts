@@ -14,10 +14,7 @@ const fetch = async ({
         headers: {
           Authorization: `${token_type} ${access_token}`,
           'Content-Type': 'application/json',
-          referrerPolicy: 'unsafe-url',
-          'Access-Control-Allow-Origin': '*',
-          credentials: 'include',
-          mode: 'no-cors'
+          'Access-Control-Allow-Origin': '*'
         }
       }
     );
