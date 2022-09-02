@@ -17,22 +17,19 @@ const Main: FC<Props> = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  if (access_token === null || token_type === null) {
-    navigate('/');
-  }
-
   useEffect(() => {
-    if (access_token === null || token_type === null) return;
+    if (access_token === null || token_type === null) {
+      navigate('/');
+      return;
+    }
     dispatch(getStatistics({ access_token, token_type }));
-  }, [access_token, dispatch, token_type]);
+  }, [access_token, dispatch, navigate, token_type]);
 
   switch (status) {
     case REQUEST_STATUS.pending: {
-      // return <p>load</p>;
       return <MainContainer showLoading />;
     }
     case REQUEST_STATUS.fulfilled: {
-      // return <p>loaded</p>;
       return <MainContainer />;
     }
     case REQUEST_STATUS.rejected: {

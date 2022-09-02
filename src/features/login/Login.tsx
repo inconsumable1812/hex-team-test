@@ -26,7 +26,7 @@ const Login: FC<Props> = () => {
       return <LoginContainer showLoading />;
     }
     case REQUEST_STATUS.fulfilled: {
-      navigate('/home');
+      navigate('/home', { replace: true });
       return null;
     }
     case REQUEST_STATUS.rejected: {

@@ -10,6 +10,11 @@ const slice = createSlice({
   reducers: {
     statusReset: (state) => {
       state.status = 'idle';
+    },
+    reset: (state) => {
+      state.access_token = null;
+      state.token_type = null;
+      state.status = 'idle';
     }
   },
   extraReducers: (builder) => {
@@ -34,6 +39,6 @@ const slice = createSlice({
 
 const { reducer } = slice;
 
-const { statusReset } = slice.actions;
+const { statusReset, reset } = slice.actions;
 
-export { reducer, selectLogin, statusReset };
+export { reducer, selectLogin, statusReset, reset };

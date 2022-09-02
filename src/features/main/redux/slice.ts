@@ -7,7 +7,12 @@ import { selectLinkObjects } from './selectors';
 const slice = createSlice({
   name: 'login',
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+      state.status = 'idle';
+      state.linkObjects = [];
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getStatistics.pending, (state) => {
@@ -47,4 +52,6 @@ const slice = createSlice({
 
 const { reducer } = slice;
 
-export { reducer, selectLinkObjects };
+const { reset } = slice.actions;
+
+export { reducer, selectLinkObjects, reset };

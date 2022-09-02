@@ -1,7 +1,9 @@
 import { FC, SyntheticEvent, useState } from 'react';
-import { useAppSelector } from 'src/app/hooks';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { reset as loginReset } from 'src/features/login/redux/slice';
 import { Container, Input, Loader } from 'src/shared/components';
 import { selectLinkObjects } from '../redux/selectors';
+import { reset } from '../redux/slice';
 import { Table } from './components/Table/Table';
 import styles from './MainContainer.module.scss';
 
@@ -10,6 +12,7 @@ type Props = {
 };
 
 const MainContainer: FC<Props> = ({ showLoading = false }) => {
+  const dispatch = useAppDispatch();
   const { linkObjects } = useAppSelector(selectLinkObjects);
   const [URL, setURL] = useState('');
   const changeURL = (e: SyntheticEvent<HTMLInputElement>) => {
@@ -19,12 +22,20 @@ const MainContainer: FC<Props> = ({ showLoading = false }) => {
     e.preventDefault();
   };
 
+  const logout = () => {
+    dispatch(loginReset());
+    dispatch(reset());
+  };
+
   return (
     <Container>
       {showLoading ? (
         <Loader />
       ) : (
         <div className={styles.root}>
+          <button onClick={logout} type={'button'} className={styles.logout}>
+            Выйти из профиля
+          </button>
           <form onSubmit={handlerSubmit}>
             <Input
               value={URL}
